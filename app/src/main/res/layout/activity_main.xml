@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#66000000">
+
+    <com.hzh.circle.annulus.progressbar.widget.CircleAnnulusProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_centerInParent="true"
+        app:max="100"
+        app:outer_circle_border_width="1dp"
+        app:outer_circle_color="#FFFFFF"
+        app:pie_color="@android:color/white"
+        app:progress="30" />
+</RelativeLayout>
