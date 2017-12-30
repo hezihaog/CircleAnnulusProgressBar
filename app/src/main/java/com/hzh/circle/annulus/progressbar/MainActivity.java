@@ -1,10 +1,10 @@
 package com.hzh.circle.annulus.progressbar;
 
 import android.animation.ValueAnimator;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.animation.LinearInterpolator;
+import android.widget.TextView;
 
 import com.hzh.circle.annulus.progressbar.widget.CircleAnnulusProgressBar;
 
@@ -16,14 +16,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final CircleAnnulusProgressBar progressBar = findViewById(R.id.progressBar);
+        final TextView tipText = findViewById(R.id.tipText);
         progressBar.setMax(100);
         progressBar.addOnProgressUpdateListener(new CircleAnnulusProgressBar.OnProgressUpdateListener() {
             @Override
             public void onProgressUpdate(int progress) {
-                Log.d(TAG, "progress ==>".concat(String.valueOf(progress)));
+                tipText.setText("当前进度: ".concat(String.valueOf(progress)));
             }
         });
 
+        //测试进度
         ValueAnimator animator = ValueAnimator.ofInt(0, 100);
         animator.setRepeatMode(ValueAnimator.RESTART);
         animator.setRepeatCount(ValueAnimator.INFINITE);

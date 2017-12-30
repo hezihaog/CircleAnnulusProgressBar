@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * FileName: CircleAnnulusProgressBar
  * Date: on 2017/12/30  下午3:15
  * Auther: zihe
- * Descirbe:
+ * Descirbe: 仿微博圆环饼形进度进度条
  * Email: hezihao@linghit.com
  */
 
@@ -218,7 +218,8 @@ public class CircleAnnulusProgressBar extends View {
             //当宽高都设置wrapContent时设置我们的默认值
             if (widthMode == MeasureSpec.AT_MOST && heightMode == MeasureSpec.AT_MOST) {
                 setMeasuredDimension(defaultWidth, defaultHeight);
-            } else if (widthMode == MeasureSpec.AT_MOST) {//宽、高任意一个为wrapContent都设置我们默认值
+            } else if (widthMode == MeasureSpec.AT_MOST) {
+                //宽、高任意一个为wrapContent都设置我们默认值
                 setMeasuredDimension(defaultWidth, heightSize);
             } else if (heightMode == MeasureSpec.AT_MOST) {
                 setMeasuredDimension(widthSize, defaultHeight);
@@ -233,10 +234,6 @@ public class CircleAnnulusProgressBar extends View {
         super.onDraw(canvas);
         //获取当前的进度
         int curProgress = getProgress();
-        //回调外面的监听器
-        for (OnProgressUpdateListener listener : mListeners) {
-            listener.onProgressUpdate(curProgress);
-        }
         //越界处理
         if (curProgress < 0) {
             curProgress = 0;
@@ -257,6 +254,10 @@ public class CircleAnnulusProgressBar extends View {
         canvas.drawArc(mRect, -90, angle, true, mPiePaint);
         //还原画布图层
         canvas.restore();
+        //回调进度给外面的监听器
+        for (OnProgressUpdateListener listener : mListeners) {
+            listener.onProgressUpdate(curProgress);
+        }
     }
 
     /**
