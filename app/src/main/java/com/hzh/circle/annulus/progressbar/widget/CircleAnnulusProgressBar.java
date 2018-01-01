@@ -126,7 +126,7 @@ public class CircleAnnulusProgressBar extends View {
     }
 
     private void init(AttributeSet attrs) {
-        //初始化默认的外圆轮廓宽度
+        //由于dp转换操作必须在初始化后context才不为空，所以在这里初始化默认的外圆轮廓宽度
         DEFAULT_OUTER_CIRCLE_BORDER_WIDTH = dip2px(getContext(), 1f);
 
         //取出Xml设置的自定义属性，当前进度，最大进度
@@ -280,11 +280,12 @@ public class CircleAnnulusProgressBar extends View {
      *
      * @param progress 要设置的进度
      */
-    public void setProgress(int progress) {
+    public synchronized void setProgress(int progress) {
         if (progress < 0) {
             progress = 0;
         }
         this.mProgress = progress;
+        //设置进度可能是子线程，所以将重绘调用交给主线程
         postInvalidate();
     }
 
@@ -302,11 +303,12 @@ public class CircleAnnulusProgressBar extends View {
      *
      * @param max 要设置的最大值
      */
-    public void setMax(int max) {
+    public synchronized void setMax(int max) {
         if (max < 0) {
             max = 0;
         }
         this.mMax = max;
+        //设置进度可能是子线程，所以将重绘调用交给主线程
         postInvalidate();
     }
 
@@ -339,6 +341,7 @@ public class CircleAnnulusProgressBar extends View {
         return mMax;
     }
 
+    //------------------ 一些尺寸转换方法 ------------------
     public static int dip2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
