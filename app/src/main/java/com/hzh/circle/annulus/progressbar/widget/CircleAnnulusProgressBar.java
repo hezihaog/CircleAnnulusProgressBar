@@ -25,6 +25,7 @@ import java.util.ArrayList;
  */
 
 public class CircleAnnulusProgressBar extends View {
+    //-------------------- 默认值 -------------------
     /**
      * 默认的当前进度，默认为0
      */
@@ -37,11 +38,6 @@ public class CircleAnnulusProgressBar extends View {
      * 默认的外圆轮廓宽度，默认是1dp
      */
     private int DEFAULT_OUTER_CIRCLE_BORDER_WIDTH = 3;
-
-    /**
-     * 默认的外圆轮廓宽度，默认是1dp
-     */
-    private float mOuterCircleBorderWidth;
     /**
      * 默认的外圆的颜色
      */
@@ -50,6 +46,22 @@ public class CircleAnnulusProgressBar extends View {
      * 默认的内饼形的颜色
      */
     private final int DEFAULT_PIE_CIRCLE = Color.parseColor("#FFFFFF");
+
+    //-------------------- 自定义属性 -------------------
+    /**
+     * 默认的外圆轮廓宽度，默认是1dp
+     */
+    private float mOuterCircleBorderWidth;
+    /**
+     * 外圆的颜色，默认白色
+     */
+    private int mOuterCircleColor;
+    /**
+     * 内饼图填充的颜色，默认是白色
+     */
+    private int mPieColor;
+
+    //-------------------- 绘制相关对象 -------------------
     /**
      * 外圆的画笔
      */
@@ -59,13 +71,11 @@ public class CircleAnnulusProgressBar extends View {
      */
     private Paint mPiePaint;
     /**
-     * 外圆的颜色，默认白色
+     * View绘制区域，去除了padding
      */
-    private int mOuterCircleColor = DEFAULT_OUTER_CIRCLE_COLOR;
-    /**
-     * 内饼图填充的颜色，默认是白色
-     */
-    private int mPieColor = DEFAULT_PIE_CIRCLE;
+    private RectF mRect;
+
+    //-------------------- View宽高等参数 -------------------
     /**
      * View的宽，包括padding
      */
@@ -75,9 +85,12 @@ public class CircleAnnulusProgressBar extends View {
      */
     private int mHeight;
     /**
-     * View绘制区域，去除了padding
+     * 设置的上下左右padding值
      */
-    private RectF mRect;
+    private int mPaddingTop;
+    private int mPaddingBottom;
+    private int mPaddingLeft;
+    private int mPaddingRight;
     /**
      * 外圆的半径，已经处理了padding
      */
@@ -85,22 +98,13 @@ public class CircleAnnulusProgressBar extends View {
     /**
      * 当前进度，默认为最大值
      */
-    private int mProgress = DEFAULT_PROGRESS;
+    private int mProgress;
     /**
      * 设置的最大进度，默认为100
      */
-    private int mMax = DEFAULT_MAX;
-    /**
-     * 外圆的轮廓宽度
-     */
-    private float outerCircleBorderWidth;
-    /**
-     * padding值
-     */
-    private int mPaddingTop;
-    private int mPaddingBottom;
-    private int mPaddingLeft;
-    private int mPaddingRight;
+    private int mMax;
+
+    //-------------------- 对外使用的对象 -------------------
     /**
      * 监听器集合
      */
@@ -122,9 +126,8 @@ public class CircleAnnulusProgressBar extends View {
     }
 
     private void init(AttributeSet attrs) {
-        //设置默认的外圆轮廓宽度
+        //初始化默认的外圆轮廓宽度
         DEFAULT_OUTER_CIRCLE_BORDER_WIDTH = dip2px(getContext(), 1f);
-        mOuterCircleBorderWidth = DEFAULT_OUTER_CIRCLE_BORDER_WIDTH;
 
         //取出Xml设置的自定义属性，当前进度，最大进度
         if (attrs != null) {
@@ -153,6 +156,18 @@ public class CircleAnnulusProgressBar extends View {
             mOuterCircleBorderWidth = array.getDimensionPixelSize(R.styleable.CircleAnnulusProgressBar_outer_circle_border_width, DEFAULT_OUTER_CIRCLE_BORDER_WIDTH);
             //记得回收资源
             array.recycle();
+        } else {
+            //没有在Xml中设置属性，使用默认属性
+            //当前进度
+            mProgress = DEFAULT_PROGRESS;
+            //最大值
+            mMax = DEFAULT_MAX;
+            //外圆的颜色
+            mOuterCircleColor = DEFAULT_OUTER_CIRCLE_COLOR;
+            //内饼形的颜色
+            mPieColor = DEFAULT_PIE_CIRCLE;
+            //外圆的宽度
+            mOuterCircleBorderWidth = DEFAULT_OUTER_CIRCLE_BORDER_WIDTH;
         }
         //外层圆的画笔
         mOuterCirclePaint = new Paint();
