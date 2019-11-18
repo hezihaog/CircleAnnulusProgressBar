@@ -29,15 +29,15 @@ public class CircleAnnulusProgressBar extends View {
     /**
      * 默认的当前进度，默认为0
      */
-    private final int DEFAULT_PROGRESS = 0;
+    private static final int DEFAULT_PROGRESS = 0;
     /**
      * 默认的最大值，默认为100
      */
-    private final int DEFAULT_MAX = 100;
+    private static final int DEFAULT_MAX = 100;
     /**
      * 默认的外圆轮廓宽度，默认是1dp
      */
-    private int DEFAULT_OUTER_CIRCLE_BORDER_WIDTH = 3;
+    private static int DEFAULT_OUTER_CIRCLE_BORDER_WIDTH = 3;
     /**
      * 默认的外圆的颜色
      */
